@@ -6,10 +6,10 @@
       <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/dist/mindar-image-aframe.prod.js"></script>
     </head>
     <body>
-      <a-scene mindar-image="imageTargetSrc: ./assets/plan_floor.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      <a-scene mindar-image="imageTargetSrc: ./assets/heart.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
         <a-assets>
-       <img id="card" src="./assets/plan_floor.jpg" /> 
-      <a-asset-item id="avatarModel" src="./assets/plan_floor.glb"></a-asset-item>
+       <img id="card" src="./assets/heart.jpg" /> 
+      <a-asset-item id="avatarModel" src="./assets/heart.glb"></a-asset-item>
         </a-assets>
   
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -23,7 +23,7 @@
 
         <a-entity mindar-image-target="targetIndex: 0">
           <a-plane src="#card" position="0 0 0" height="0" width="0" rotation="0 0 0"></a-plane>
-          <a-gltf-model rotation="0 0 2" position="0 0" scale="0.15 0.15 0.15" src="#avatarModel"
+          <a-gltf-model rotation="0 0 0" position="0 0" scale="0.15 0.15 0.15" src="#avatarModel"
             animation="property: position; to: 0 0 0; dur: 0; easing: easeInOutQuad; loop: true; dir: alternate"
           >
         </a-entity>
@@ -31,7 +31,8 @@
     </body>
 </html>
 
-<!--   Mind compiler link
+<!--
+     Mind compiler link
   https://hiukim.github.io/mind-ar-js-doc/tools/compile/
 
       Repository link
