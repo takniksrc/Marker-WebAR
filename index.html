@@ -4,6 +4,45 @@
       <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/dist/mindar-image.prod.js"></script>
       <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
       <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/dist/mindar-image-aframe.prod.js"></script>
+      <script type="text/javascript">
+    AFRAME.registerComponent('drag-rotate-component',{
+      schema : { speed : {default:1}},
+      init : function(){
+        this.ifMouseDown = false;
+        this.x_cord = 0;
+        this.y_cord = 0;
+        document.addEventListener('mousedown',this.OnDocumentMouseDown.bind(this));
+        document.addEventListener('mouseup',this.OnDocumentMouseUp.bind(this));
+        document.addEventListener('mousemove',this.OnDocumentMouseMove.bind(this));
+      },
+      OnDocumentMouseDown : function(event){
+        this.ifMouseDown = true;
+        this.x_cord = event.clientX;
+        this.y_cord = event.clientY;
+      },
+      OnDocumentMouseUp : function(){
+        this.ifMouseDown = false;
+      },
+      OnDocumentMouseMove : function(event)
+      {
+        if(this.ifMouseDown)
+        {
+          var temp_x = event.clientX-this.x_cord;
+          var temp_y = event.clientY-this.y_cord;
+          if(Math.abs(temp_y)<Math.abs(temp_x))
+          {
+            this.el.object3D.rotateY(temp_x*this.data.speed/1000);
+          }
+          else
+          {
+            this.el.object3D.rotateX(temp_y*this.data.speed/1000);
+          }
+          this.x_cord = event.clientX;
+          this.y_cord = event.clientY;
+        }
+      }
+    });
+</script>
     </head>
     <body>
       <a-scene mindar-image="imageTargetSrc: ./assets/heart.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
@@ -12,7 +51,7 @@
       <a-asset-item id="avatarModel" src="./assets/heart.glb"></a-asset-item>
         </a-assets>
   
-        <a-camera position="0 0 0" drag-rotate-component look-controls="enabled:false"></a-camera>
+         <a-camera position="0 0 0" look-controls="enabled:false"></a-camera> <!-- drag-rotate-component -->
 
   
         <!--<a-entity mindar-image-target="targetIndex: 0">
@@ -24,7 +63,7 @@
 
         <a-entity mindar-image-target="targetIndex: 0">
           <a-plane src="#card" position="0 0 0" height="0" width="0" rotation="0 0 0"></a-plane>
-          <a-gltf-model  rotation="0 45 0" position="0 0 0" scale="0.15 0.15 0.15" src="#avatarModel"
+          <a-gltf-model drag-rotate-component rotation="0 45 0" position="0 0 0" scale="0.15 0.15 0.15" src="#avatarModel"
             animation="property: position; to: 0 0 0; dur: 0; easing: easeInOutQuad; loop: true; dir: alternate"
           >
         </a-entity>
