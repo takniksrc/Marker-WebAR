@@ -36,10 +36,10 @@
         preset='custom'
        type="pattern" url='pattern-heart.patt' -->
 
-      <a-marker
+      <a-marker-camera
         preset='custom'
         type="pattern"
-        url='./assets/pattern-heart.patt'
+        url='https://raw.githubusercontent.com/takniksrc/Marker-WebAR/main/assets/pattern-heart.patt'
        
         raycaster="objects: .clickable"
         emitevents="true"
@@ -55,8 +55,7 @@
           gesture-handler
         >
         </a-entity>
-      </a-marker>
-      <a-entity camera></a-entity>
+      </a-marker-camera>
     </a-scene>
   </body>
 </html>
