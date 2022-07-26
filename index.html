@@ -34,12 +34,11 @@
       <!--
         http://127.0.0.1:5500/index.html
         preset='custom'
-       type="pattern" url='pattern-heart.patt' -->
+       type="pattern" url='./assets/pattern-heart.patt' -->
 
-      <a-marker-camera
-        preset='custom'
-        type="pattern"
-        url='https://raw.githubusercontent.com/takniksrc/Marker-WebAR/main/assets/pattern-heart.patt'
+      <a-marker
+        preset='hiro'
+       
        
         raycaster="objects: .clickable"
         emitevents="true"
@@ -55,7 +54,8 @@
           gesture-handler
         >
         </a-entity>
-      </a-marker-camera>
+      </a-marker>
+      <a-entity camera></a-entity>
     </a-scene>
   </body>
 </html>
