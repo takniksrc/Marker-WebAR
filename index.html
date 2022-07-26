@@ -1,86 +1,62 @@
+<!DOCTYPE html>
+
 <html>
-    <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/dist/mindar-image.prod.js"></script>
-      <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/dist/mindar-image-aframe.prod.js"></script>
-
-      <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
-
-      <script type="text/javascript">
-    AFRAME.registerComponent('drag-rotate-component',{
-      schema : { speed : {default:1}},
-      init : function(){
-        this.ifMouseDown = false;
-        this.x_cord = 0;
-        this.y_cord = 0;
-        document.addEventListener('mousedown',this.OnDocumentMouseDown.bind(this));
-        document.addEventListener('mouseup',this.OnDocumentMouseUp.bind(this));
-        document.addEventListener('mousemove',this.OnDocumentMouseMove.bind(this));
-      },
-      OnDocumentMouseDown : function(event){
-        this.ifMouseDown = true;
-        this.x_cord = event.clientX;
-        this.y_cord = event.clientY;
-      },
-      OnDocumentMouseUp : function(){
-        this.ifMouseDown = false;
-      },
-      OnDocumentMouseMove : function(event)
-      {
-        if(this.ifMouseDown)
-        {
-          var temp_x = event.clientX-this.x_cord;
-          var temp_y = event.clientY-this.y_cord;
-          if(Math.abs(temp_y)<Math.abs(temp_x))
-          {
-            this.el.object3D.rotateY(temp_x*this.data.speed/200);
-          }
-          else
-          {
-            this.el.object3D.rotateX(temp_y*this.data.speed/200);
-          }
-          this.x_cord = event.clientX;
-          this.y_cord = event.clientY;
-        }
-      }
-    });
-</script>
+  <head>
+    <title>Gesture Interactions - A-Frame & AR.js</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="styles.css">
 
 
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="gesture-detector.js"></script>
+    <script src="gesture-handler.js"></script>
+  </head>
 
-    </head>
-    <body>
-      <a-scene mindar-image="imageTargetSrc: ./assets/heart.mind;"  gesture-detector="true" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
-        <a-assets>
-       <img id="card" src="./assets/heart.jpg" /> 
-      <a-asset-item id="avatarModel" src="./assets/heart.glb"></a-asset-item>
-        </a-assets>
-  
-         <a-camera position="0 0 0" look-controls="enabled:false"></a-camera> <!-- drag-rotate-component -->
+  <body>
+    <a-scene
+      arjs
+      embedded
+      renderer="logarithmicDepthBuffer: true;"
+      vr-mode-ui="enabled: false"
+      gesture-detector
+      id="scene"
+    >
+      <a-assets>
+        <a-asset-item
+          id="bowser"
+          src="./assets/heart.glb"
+        >
+        </a-asset-item>
+      </a-assets>
 
-  
-        <!--<a-entity mindar-image-target="targetIndex: 0">
-          <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-          <a-gltf-model rotation="0 0 0 " position="0 0 0.1" scale="0.005 0.005 0.005" src="#avatarModel"
-            animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
-          >
-        </a-entity>-->
+      <!--
+        http://127.0.0.1:5500/index.html
+        preset='custom'
+       type="pattern" url='pattern-heart.patt' -->
 
-        <a-entity mindar-image-target="targetIndex: 0" class="clickable" gesture-handler="minScale: 0.5; maxScale: 1">
-          <a-plane src="#card" position="0 0 0" height="0" width="0" rotation="0 0 0"></a-plane>
-          <a-gltf-model drag-rotate-component rotation="0 45 0" position="0 0 0" scale="0.15 0.15 0.15" src="#avatarModel"
-            animation="property: position; to: 0 0 0; dur: 0; easing: easeInOutQuad; loop: true; dir: alternate"
-          >
+      <a-marker
+        preset='custom'
+        type="pattern"
+        url='./assets/pattern-heart.patt'
+       
+        raycaster="objects: .clickable"
+        emitevents="true"
+        cursor="fuse: false; rayOrigin: mouse;"
+        id="markerA"
+      >
+        <a-entity
+          id="bowser-model"
+          gltf-model="#bowser"
+          position="0 0 0"
+          scale="0.05 0.05 0.05"
+          class="clickable"
+          gesture-handler
+        >
         </a-entity>
-      </a-scene>
-    </body>
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
 </html>
-
-<!--
-     Mind compiler link
-  https://hiukim.github.io/mind-ar-js-doc/tools/compile/
-
-      Repository link
-  https://github.com/hiukim/mind-ar-js    
--->
